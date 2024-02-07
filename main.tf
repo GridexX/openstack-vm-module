@@ -99,8 +99,8 @@ resource "openstack_compute_instance_v2" "instance" {
   flavor_name = var.flavor_name
   key_pair    = openstack_compute_keypair_v2.key_pair.name
   security_groups = [
-    openstack_networking_secgroup_v2.ssh.name,
-    openstack_networking_secgroup_v2.http.name,
+    openstack_networking_secgroup_v2.ssh.id,
+    openstack_networking_secgroup_v2.http.id,
   ]
 
   user_data = var.user_data != null ? var.user_data : null

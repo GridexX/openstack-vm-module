@@ -18,3 +18,7 @@ output "instance_floating_ip" {
   description = "The floating IP address of the instance"
 }
 
+output "instance_connection" {
+  value       = "ssh -i ${var.public_key_pair_path} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${var.ssh_user}@${openstack_networking_floatingip_v2.floating_ip.address}"
+  description = "Command to connect to the instance"
+}

@@ -7,14 +7,15 @@ This module is used to quickly spawns VMs on Openstack.
 ```hcl
 module "openstack" {
 
-  source = "git::https://github.com/GridexX/openstack-vm-module.git?ref=1.0.0"
+  source = "git::https://github.com/GridexX/openstack-vm-module.git?ref=1.1.0"
 
 
   instance_name = "my-vm"
   image_name = "Ubuntu 18.04"
   flavor_name = "m1.small"
   public_network_name = "public"
-  keypair = "my-keypair"
+  ssh_user = "ubuntu"
+  public_key_pair_path = "~/.ssh/id_rsa.pub"
   user_data = "echo 'Hello, World!' > /tmp/hello.txt"
 }
 ```

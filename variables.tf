@@ -31,6 +31,11 @@ variable "instance_name" {
   description = "The name of the instance"
 }
 
+variable "ssh_user" {
+  type = string
+  description = "The user used for SSHing into the instance"
+}
+
 variable "dns_nameservers" {
   type        = list(string)
   description = "The list of DNS nameservers to use for the instance"
