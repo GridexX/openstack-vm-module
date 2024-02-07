@@ -1,3 +1,11 @@
+resource "random_pet" "suffix" {
+  length = 1
+}
+
+locals {
+  random_name = var.create_random_suffix ? "${var.instance_name}-${random_pet.suffix.id}" : var.instance_name
+}
+
 #######################
 #    SECURITY GROUPS  #
 #######################
@@ -6,7 +14,7 @@
 #         SSH         #
 #######################
 resource "openstack_networking_secgroup_v2" "ssh" {
-  name        = "ssh"
+  name        = "${local.random_name}-ssh"
   description = "Allow SSH from anywhere - Recommended to delete after deployment"
 }
 
@@ -26,7 +34,7 @@ resource "openstack_networking_secgroup_rule_v2" "ssh" {
 #         HTTP        #
 #######################
 resource "openstack_networking_secgroup_v2" "http" {
-  name        = "http"
+  name        = "${local.random_name}-http"
   description = "Allow HTTP/HTTPS from anywhere"
 }
 
@@ -40,14 +48,6 @@ resource "openstack_networking_secgroup_rule_v2" "http" {
   remote_ip_prefix = "0.0.0.0/0"
 
   security_group_id = openstack_networking_secgroup_v2.http.id
-}
-
-resource "random_pet" "suffix" {
-  length = 1
-}
-
-locals {
-  random_name = var.create_random_suffix ? "${var.instance_name}-${random_pet.suffix.id}" : var.instance_name
 }
 
 
@@ -98,10 +98,10 @@ resource "openstack_compute_instance_v2" "instance" {
   image_name  = var.image_name
   flavor_name = var.flavor_name
   key_pair    = openstack_compute_keypair_v2.key_pair.name
-  security_groups = [
+  security_groups = concat([
     openstack_networking_secgroup_v2.ssh.id,
     openstack_networking_secgroup_v2.http.id,
-  ]
+  ], var.security_groups)
 
   user_data = var.user_data != null ? var.user_data : null
 

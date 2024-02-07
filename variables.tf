@@ -47,3 +47,9 @@ variable "user_data" {
   description = "The user data to use for the instance. Can be inline, read in from the file function, or the template_cloudinit_config resource"
   default     = null
 }
+
+variable "security_groups" {
+  type        = list(string)
+  description = "The list of security groups to use for the instance"
+  default     = []
+}

@@ -7,7 +7,7 @@ This module is used to quickly spawns VMs on Openstack.
 ```hcl
 module "openstack" {
 
-  source = "git::https://github.com/GridexX/openstack-vm-module.git?ref=1.1.0"
+  source = "git::https://github.com/GridexX/openstack-vm-module.git?ref=1.1.1"
 
 
   instance_name = "my-vm"
